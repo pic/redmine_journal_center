@@ -2,7 +2,7 @@ require_dependency 'journal_note'
 class JournalNotesController < ApplicationController
   unloadable
   
-  before_filter :find_project, :authorize
+  before_filter :find_project_by_project_id, :authorize
   #before_filter :find_customer, :only => [:edit, :update, :destroy]
   #before_filter :find_customers, :only => [:list, :select]
 

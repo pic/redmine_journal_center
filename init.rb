@@ -22,6 +22,7 @@ Redmine::Plugin.register :redmine_journal_center do
     permission :list_journal_notes, {:journal_notes => [:index]}
   end
 
-  menu :project_menu, :journal_notes, {:controller => 'journal_notes', :action => 'index'}, :caption => :jcenter_title
+  menu :project_menu, :journal_notes, {:controller => 'journal_notes', :action => 'index'}, 
+    :param => :project_id, :caption => :jcenter_title
 
 end
