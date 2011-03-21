@@ -1,0 +1,7 @@
+
+<% if @journals.empty? %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
+<%= render :partial => 'list', :locals => {:journals => @journals} %>
+<p class="pagination"><%= simple_pagination_links_full @journal_pages, @journal_count %></p>
+<% end %>

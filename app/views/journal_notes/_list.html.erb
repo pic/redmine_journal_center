@@ -1,0 +1,33 @@
+
+<% form_tag({}) do
+  #columns = %w(description).map {|n| Issue.columns_hash[n]}
+  columns = %w(journal_subject status priority tracker assigned_to done_ratio).map {|n| QueryColumn.new(n.to_sym)}
+  journal_columns = %w(journal_subject)
+  -%>
+<div class="autoscroll">
+<table class="list issues">
+    <thead><tr>
+        <th class="checkbox hide-when-print"><%= link_to image_tag('toggle_check.png'), {}, :onclick => 'toggleIssuesSelection(Element.up(this, "form")); return false;',
+                                                           :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
+        </th>
+        <%= content_tag('th', "#") %>
+        <% columns.each do |column| %>
+          <%= column_header(column) %>
+        <% end %>
+	</tr></thead>
+	<tbody>
+  <% journals.each do |journal|
+       issue = journal.journalized
+  %>
+    <tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %>">
+      <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %></td>
+      <td class="id"><%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %></td>
+      <% columns.each do |column|
+           object = journal_columns.include?(column.name.to_s) ? journal : issue
+      %><%= content_tag 'td', column_content(column, object), :class => column.name %><% end %>
+    </tr>
+	<% end -%>
+	</tbody>
+</table>
+</div>
+<% end -%>

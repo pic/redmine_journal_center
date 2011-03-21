@@ -1,0 +1,1 @@
+This plugin adds a view where user can check journal updates like in an inbox
