@@ -8,7 +8,7 @@ class JournalNote < ActiveRecord::Base
   #validates_uniqueness_of :journal, :scope => :user_id
 
   def css_classes
-    read ? 'read' : 'not-read'
+    read ? '' : 'not-read'
   end
 end
 

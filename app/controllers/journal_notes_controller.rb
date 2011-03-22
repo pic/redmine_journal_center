@@ -6,7 +6,7 @@ class JournalNotesController < ApplicationController
   before_filter :find_journal_and_note, :only => [:show, :destroy]
   #before_filter :find_customers, :only => [:list, :select]
 
-  helper :sort, :queries#, :issues
+  helper :sort#, :issues
 
   def index
     opts = {

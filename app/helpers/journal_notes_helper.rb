@@ -8,8 +8,8 @@ module JournalNotesHelper
           {
             :controller => 'journal_notes',
             :action => 'show', :id => object
-          }#,
-        #:class => object.user_journal_note.read ? 'read' : 'not-read'
+          },
+          :onclick => "$('#{dom_id object}').removeClassName('not-read')"
         )
     else column_content(column, object)
     end
