@@ -14,17 +14,20 @@
         <% columns.each do |column| %>
           <%= column_header(column) %>
         <% end %>
+        <th>&nbsp</th>
 	</tr></thead>
 	<tbody>
   <% journals.each do |journal|
        issue = journal.journalized
   %>
-    <tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %> <%= journal.safe_user_journal_note.css_classes %>">
+    <tr id="journal-<%= journal.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %> <%= journal.safe_user_journal_note.css_classes %>">
       <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %></td>
       <td class="id"><%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %></td>
       <% columns.each do |column|
            object = journal_columns.include?(column.name.to_s) ? journal : issue
       %><%= content_tag 'td', jcolumn_content(column, object), :class => column.name %><% end %>
+      <td><%= link_to_remote "Delete", :url => {:action => 'destroy', :id => journal}, :method => :delete,
+          :loading => "$('journal-#{journal.id}').hide()"%></td>
     </tr>
 	<% end -%>
 	</tbody>

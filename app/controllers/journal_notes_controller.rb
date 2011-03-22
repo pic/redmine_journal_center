@@ -3,7 +3,7 @@ class JournalNotesController < ApplicationController
   unloadable
   
   before_filter :find_project_by_project_id, :authorize
-  #before_filter :find_customer, :only => [:edit, :update, :destroy]
+  before_filter :find_journal_and_note, :only => [:show, :destroy]
   #before_filter :find_customers, :only => [:list, :select]
 
   helper :sort, :queries#, :issues
@@ -35,9 +35,18 @@ class JournalNotesController < ApplicationController
   end
 
   def show
-    journal = Journal.find params[:id]
-    note = journal.user_journal_note || journal.journal_notes.create!(:user => User.current)
-    note.update_attribute(:read, true)
-    redirect_to :controller => 'issues', :action => 'show', :id => journal.journalized
+    @note.update_attribute(:read, true)
+    redirect_to :controller => 'issues', :action => 'show', :id => @journal.journalized
   end
+  
+  def destroy
+    @note.update_attribute(:deleted, true)
+    head :no_content
+  end
+
+  private
+    def find_journal_and_note
+      @journal = Journal.find params[:id]
+      @note = @journal.user_journal_note || @journal.journal_notes.create!(:user => User.current)
+    end
 end

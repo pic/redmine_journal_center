@@ -20,7 +20,8 @@ Redmine::Plugin.register :redmine_journal_center do
 
   project_module(:jcenter_module) do
     permission :list_journal_notes, {:journal_notes => [:index]}
-    permission :read_journal_notes, {:journal_notes => [:show]}
+    permission :read_journal_note, {:journal_notes => [:show]}
+    permission :destroy_journal_note, {:journal_notes => [:destroy]}
   end
 
   menu :project_menu, :journal_notes, {:controller => 'journal_notes', :action => 'index'}, 
