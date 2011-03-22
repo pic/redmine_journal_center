@@ -1,13 +1,8 @@
 require 'redmine'
 
-#require 'journal_center_observer'
-
-#ActiveRecord::Base.observers << JournalCenterObserver
-#config.to_prepare do
-#  unless config.action_controller.perform_caching
-#    JournalCenterObserver.instance.reload_observer
-#  end
-#end
+config.to_prepare do
+  require_dependency 'journal_helper_patch'
+end
 
 Redmine::Plugin.register :redmine_journal_center do
   name 'Redmin Journal Center'
