@@ -24,6 +24,8 @@ class Journal
   end
 
   def journal_subject
-    "#{journalized.subject} / Update #{id}"
+    "#{journalized.subject} / Update #{nindex}"
   end
+
+  def nindex ; id ; end
 end
