@@ -34,4 +34,10 @@ class JournalNotesController < ApplicationController
     #  )
   end
 
+  def show
+    journal = Journal.find params[:id]
+    note = journal.user_journal_note || journal.journal_notes.create!(:user => User.current)
+    note.update_attribute(:read, true)
+    redirect_to :controller => 'issues', :action => 'show', :id => journal.journalized
+  end
 end

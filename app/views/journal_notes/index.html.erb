@@ -5,3 +5,7 @@
 <%= render :partial => 'list', :locals => {:journals => @journals} %>
 <p class="pagination"><%= simple_pagination_links_full @journal_pages, @journal_count %></p>
 <% end %>
+
+<% content_for :header_tags do %>
+    <%= stylesheet_link_tag 'journal_center', :plugin => 'redmine_journal_center' %>
+<% end %>
