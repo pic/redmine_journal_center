@@ -38,7 +38,8 @@ class JournalNotesController < ApplicationController
 
   def show
     @note.update_attribute(:read, true)
-    redirect_to :controller => 'issues', :action => 'show', :id => @journal.journalized
+    redirect_to :controller => 'issues', :action => 'show', 
+      :id => @journal.journalized, :anchor => "change-#{@journal.id}"
   end
   
   def toggle_important
