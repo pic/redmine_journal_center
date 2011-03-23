@@ -42,7 +42,10 @@ class JournalNotesController < ApplicationController
   end
   
   def toggle_important
-    @note.update_attribute(:important, !@note.important)
+    important = !@note.important
+    @note.update_attribute(:important, important)
+    @note.update_attribute(:read, true) if params[:read]
+    @note.update_attribute(:deleted, false) if important
     head :no_content
   end
 
