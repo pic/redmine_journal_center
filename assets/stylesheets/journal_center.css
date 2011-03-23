@@ -6,3 +6,7 @@
 .important, .important a {
   color: red;
 }
+
+td.journal_subject {
+  white-space:normal;
+}
