@@ -1,8 +1,8 @@
 
 <% form_tag({}) do
   #columns = %w(description).map {|n| Issue.columns_hash[n]}
-  columns = %w(journal_subject status priority tracker assigned_to done_ratio).map {|n| QueryColumn.new(n.to_sym)}
-  journal_columns = %w(journal_subject)
+  columns = %w(journal_subject status priority tracker assigned_to done_ratio created_on).map {|n| QueryColumn.new(n.to_sym)}
+  journal_columns = %w(journal_subject created_on)
   -%>
 <div class="autoscroll">
 <table class="list issues">
