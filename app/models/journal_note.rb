@@ -8,7 +8,10 @@ class JournalNote < ActiveRecord::Base
   #validates_uniqueness_of :journal, :scope => :user_id
 
   def css_classes
-    read ? '' : 'not-read'
+    css_classes = []
+    css_classes << 'not-read' unless read
+    css_classes << 'important' if important
+    css_classes.join(' ')
   end
 end
 

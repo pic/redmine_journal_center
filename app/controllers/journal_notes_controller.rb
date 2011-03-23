@@ -1,9 +1,11 @@
 require_dependency 'journal_note'
+require_dependency 'query'
+
 class JournalNotesController < ApplicationController
   unloadable
   
   before_filter :find_project_by_project_id, :authorize
-  before_filter :find_journal_and_note, :only => [:show, :destroy]
+  before_filter :find_journal_and_note, :only => [:show, :destroy, :toggle_important]
   #before_filter :find_customers, :only => [:list, :select]
 
   helper :sort#, :issues
@@ -39,6 +41,11 @@ class JournalNotesController < ApplicationController
     redirect_to :controller => 'issues', :action => 'show', :id => @journal.journalized
   end
   
+  def toggle_important
+    @note.update_attribute(:important, !@note.important)
+    head :no_content
+  end
+
   def destroy
     @note.update_attribute(:deleted, true)
     head :no_content

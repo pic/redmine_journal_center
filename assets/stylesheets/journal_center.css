@@ -1,5 +1,8 @@
 
 .not-read {
-    font-weight: bold;
+  font-weight: bold;
 }
 
+.important, .important a {
+  color: red;
+}
