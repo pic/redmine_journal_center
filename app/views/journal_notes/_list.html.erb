@@ -7,9 +7,10 @@
 <div class="autoscroll">
 <table class="list issues">
     <thead><tr>
-        <th class="checkbox hide-when-print"><%= link_to image_tag('toggle_check.png'), {}, :onclick => 'toggleIssuesSelection(Element.up(this, "form")); return false;',
+        <!--<th class="checkbox hide-when-print"><%= link_to image_tag('toggle_check.png'), {}, :onclick => 'toggleIssuesSelection(Element.up(this, "form")); return false;',
                                                            :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
         </th>
+        -->
         <%= content_tag('th', "#") %>
         <%= content_tag('th', "&nbsp") %>
         <% columns.each do |column| %>
@@ -22,7 +23,7 @@
        issue = journal.journalized
   %>
     <tr id="<%= dom_id journal %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %> <%= journal.safe_user_journal_note.css_classes %>">
-      <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %></td>
+      <!--<td class="checkbox hide-when-print"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %></td>-->
       <td class="id"><%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %></td>
       <td class="important"><%= link_to_remote(image_tag(journal.safe_user_journal_note.important ? 'flag.png' : 'bullet.png', :plugin => 'redmine_journal_center'), :url => {:action => 'toggle_important', :id => journal}, :method => :put,
           :loading => "toggleImportant('#{dom_id journal}')")%></td>
