@@ -1,7 +1,11 @@
 require 'redmine'
 
+ActiveRecord::Base.observers << JournalCenterObserver
 config.to_prepare do
   require_dependency 'journal_helper_patch'
+  unless config.action_controller.perform_caching
+    JournalCenterObserver.instance.reload_observer
+  end
 end
 
 Redmine::Plugin.register :redmine_journal_center do
@@ -11,7 +15,6 @@ Redmine::Plugin.register :redmine_journal_center do
   url 'http://github.com/pic/redmine_journal_center'
   author 'Nicola Piccinini'
   author_url 'mailto:piccinini@gmail.com'
-
 
   project_module(:jcenter_module) do
     permission :list_journal_notes, {:journal_notes => [:index]}
