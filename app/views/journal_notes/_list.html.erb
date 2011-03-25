@@ -30,7 +30,7 @@
       <% columns.each do |column|
            object = journal_columns.include?(column.name.to_s) ? journal : issue
       %><%= content_tag 'td', jcolumn_content(column, object), :class => column.name %><% end %>
-      <td><%= link_to_remote "Delete", :url => {:action => 'destroy', :id => journal}, :method => :delete,
+      <td><%= link_to_remote "All set", :url => {:action => 'destroy', :id => journal}, :method => :delete,
           :loading => "$('#{dom_id journal}').hide()"%></td>
     </tr>
 	<% end -%>
