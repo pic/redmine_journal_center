@@ -45,6 +45,11 @@
 <%= call_hook(:view_issues_show_details_bottom, :issue => @issue) %>
 </table>
 
+<%  unless @journals.empty? %>
+<hr />
+<%= render :partial => 'journal_notes/history_summary', :locals => { :issue => @issue, :journals => @journals } %>
+<% end %>
+
 <% if @issue.description? || @issue.attachments.any? -%>
 <hr />
 <% if @issue.description? %>
