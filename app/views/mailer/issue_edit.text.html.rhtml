@@ -1,4 +1,4 @@
-Visit <%= link_to(h("#{@issue.tracker.name} ##{@issue.id} / Update ##{@journal.nindex}"),
+Visit <%= link_to(h("#{@issue.tracker.name} ##{@issue.id} / Update ##{@journal.stored_indice!}"),
     :controller => 'journal_notes', :action => 'show', 
     :id => @journal, :project_id => @issue.project, :only_path => false) %><br /><br />
 <%= l(:text_issue_updated, :id => "##{@issue.id}", :author => h(@journal.user)) %>

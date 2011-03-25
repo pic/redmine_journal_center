@@ -27,8 +27,16 @@ class Journal
   end
 
   def journal_subject
-    "#{journalized.subject} / Update #{nindex}"
+    "#{journalized.subject} / Update #{stored_indice!}"
   end
 
-  def nindex ; id ; end
+  def stored_indice!
+    if stored_indice.nil?
+      update_attribute(
+        :stored_indice,
+        journalized.journals(:order => 'created_on asc').index(self) + 1
+        )
+    end
+    stored_indice
+  end
 end
