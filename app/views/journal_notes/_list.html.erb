@@ -1,7 +1,7 @@
 
 <% form_tag({}) do
   #columns = %w(description).map {|n| Issue.columns_hash[n]}
-  columns = %w(journal_subject status priority tracker assigned_to done_ratio created_on).map {|n| QueryColumn.new(n.to_sym)}
+  columns = %w(journal_subject assigned_to spent_hours estimated_hours status priority done_ratio created_on tracker).map {|n| QueryColumn.new(n.to_sym)}
   journal_columns = %w(journal_subject created_on)
   -%>
 <div class="autoscroll">
@@ -13,10 +13,10 @@
         -->
         <%= content_tag('th', "#") %>
         <%= content_tag('th', "&nbsp") %>
+        <%= content_tag('th', "&nbsp") %>
         <% columns.each do |column| %>
           <%= column_header(column) %>
         <% end %>
-        <th>&nbsp</th>
 	</tr></thead>
 	<tbody>
   <% journals.each do |journal|
@@ -25,13 +25,13 @@
     <tr id="<%= dom_id journal %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %> <%= journal.safe_user_journal_note.css_classes %>">
       <!--<td class="checkbox hide-when-print"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %></td>-->
       <td class="id"><%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %></td>
+      <td><%= link_to_remote "All set", :url => {:action => 'destroy', :id => journal}, :method => :delete,
+          :loading => "$('#{dom_id journal}').hide()"%></td>
       <td class="important"><%= link_to_remote(image_tag(journal.safe_user_journal_note.important ? 'flag.png' : 'bullet.png', :plugin => 'redmine_journal_center'), :url => {:action => 'toggle_important', :id => journal}, :method => :put,
           :loading => "toggleImportant('#{dom_id journal}')")%></td>
       <% columns.each do |column|
            object = journal_columns.include?(column.name.to_s) ? journal : issue
       %><%= content_tag 'td', jcolumn_content(column, object), :class => column.name %><% end %>
-      <td><%= link_to_remote "All set", :url => {:action => 'destroy', :id => journal}, :method => :delete,
-          :loading => "$('#{dom_id journal}').hide()"%></td>
     </tr>
 	<% end -%>
 	</tbody>
