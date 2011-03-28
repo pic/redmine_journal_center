@@ -6,14 +6,16 @@ class JournalNotesController < ApplicationController
   
   before_filter :find_project_by_project_id, :authorize
   before_filter :find_journal_and_note, :only => [:show, :destroy, :toggle_important]
+  before_filter :find_user
   #before_filter :find_customers, :only => [:list, :select]
 
   helper :sort#, :issues
 
   def index
+    user = @request_user || User.current
     opts = {
       :joins => 'join issues on journals.journalized_id = issues.id and journals.journalized_type = \'Issue\' left join journal_notes on journals.id = journal_notes.journal_id',
-      :conditions => ['issues.project_id = ? and (journal_notes.user_id is null or (journal_notes.user_id = ? and journal_notes.deleted = ?))', @project, User.current, false]
+      :conditions => ['issues.project_id = ? and (journal_notes.user_id is null or journal_notes.user_id != ? or (journal_notes.user_id = ? and journal_notes.deleted = ?))', @project, user, user, false]
       }
     @n_count = Journal.count(opts)
     @limit = per_page_option
@@ -31,7 +33,7 @@ class JournalNotesController < ApplicationController
     )
     #@jnotes = JournalNote.find(:all,
     #  :include => {:journal => {:journalized => [:assigned_to, :tracker, :priority, :category, :fixed_version]}},
-    #  :conditions => ['journals.id in (?) and journal_notes.user_id =', fr.map(&:id), User.current],
+    #  :conditions => ['journals.id in (?) and journal_notes.user_id =', fr.map(&:id), user],
     #  :order => 'journals.created_on desc'
     #  )
   end
@@ -60,4 +62,8 @@ class JournalNotesController < ApplicationController
       @journal = Journal.find params[:id]
       @note = @journal.user_journal_note || @journal.journal_notes.create!(:user => User.current)
     end
+    def find_user
+      @request_user = User.find_by_id params[:user_id] || User.current
+    end
+
 end

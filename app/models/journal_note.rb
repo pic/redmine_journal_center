@@ -22,7 +22,7 @@ class Journal
     journal_notes.find(:first, :conditions => {:user_id => user})
   end
   def safe_user_journal_note(user = User.current)
-    user_journal_note(user = User.current) or
+    user_journal_note(user) or
     JournalNote.new(:user => user)
   end
 

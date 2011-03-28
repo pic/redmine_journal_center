@@ -3,6 +3,7 @@ require 'redmine'
 ActiveRecord::Base.observers << JournalCenterObserver
 config.to_prepare do
   require_dependency 'journal_helper_patch'
+  require_dependency 'hooks'
   unless config.action_controller.perform_caching
     JournalCenterObserver.instance.reload_observer
   end

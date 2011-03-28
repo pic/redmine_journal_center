@@ -10,3 +10,10 @@
 td.journal_subject {
   white-space:normal;
 }
+
+ul.vods {
+  padding-left: 0;
+}
+ul.vods li {
+  list-style-type: none;
+}

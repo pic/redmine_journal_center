@@ -12,7 +12,9 @@
         </th>
         -->
         <%= content_tag('th', "#") %>
+        <% if current_user_notes? %>
         <%= content_tag('th', "&nbsp") %>
+        <% end %>
         <%= content_tag('th', "&nbsp") %>
         <% columns.each do |column| %>
           <%= column_header(column) %>
@@ -22,13 +24,17 @@
   <% journals.each do |journal|
        issue = journal.journalized
   %>
-    <tr id="<%= dom_id journal %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %> <%= journal.safe_user_journal_note.css_classes %>">
+    <tr id="<%= dom_id journal %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %> <%= journal.safe_user_journal_note(@request_user).css_classes %>">
       <!--<td class="checkbox hide-when-print"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %></td>-->
       <td class="id"><%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %></td>
+      <% if current_user_notes? %>
       <td><%= link_to_remote "All set", :url => {:action => 'destroy', :id => journal}, :method => :delete,
           :loading => "$('#{dom_id journal}').hide()"%></td>
-      <td class="important"><%= link_to_remote(image_tag(journal.safe_user_journal_note.important ? 'flag.png' : 'bullet.png', :plugin => 'redmine_journal_center'), :url => {:action => 'toggle_important', :id => journal}, :method => :put,
+      <td class="important"><%= link_to_remote(image_tag(journal.safe_user_journal_note(@request_user).important ? 'flag.png' : 'bullet.png', :plugin => 'redmine_journal_center'), :url => {:action => 'toggle_important', :id => journal}, :method => :put,
           :loading => "toggleImportant('#{dom_id journal}')")%></td>
+      <% else %>
+      <td class="important"><%= image_tag(journal.safe_user_journal_note(@request_user).important ? 'flag.png' : 'bullet.png', :plugin => 'redmine_journal_center')%></td>
+      <% end %>
       <% columns.each do |column|
            object = journal_columns.include?(column.name.to_s) ? journal : issue
       %><%= content_tag 'td', jcolumn_content(column, object), :class => column.name %><% end %>

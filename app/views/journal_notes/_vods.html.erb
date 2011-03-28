@@ -1,0 +1,8 @@
+<% if User.current.allowed_to?(:list_journal_notes, @project) %>
+<h3>VODs</h3>
+<ul class="vods">
+<% @project.users.each do |u| %>
+  <li><%= link_to u.name, :controller => 'journal_notes', :action => 'index', :project_id => @project, :user_id => u %></li>
+<% end %>
+</ul>
+<% end %>
