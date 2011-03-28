@@ -1,7 +1,8 @@
+<p style="font-weight: bold">Updates</p>
 <ul>
   <% @journals.reverse.each do |journal| %>
   <li>
-    <%= link_to("##{journal.stored_indice!} Updated by #{journal.user} #{distance_of_time_in_words(Time.now, journal.created_on)} ago",
+    <%= link_to("##{journal.stored_indice!} by #{journal.user} #{distance_of_time_in_words(Time.now, journal.created_on)} ago",
           :anchor => "change-#{journal.id}")
     %>
   </li>
