@@ -16,8 +16,10 @@ module JournalNotesHelper
           },
           opts
         )
+      when :spent_hours, :estimated_hours then
+        value = column.value(object)
+        "%.2f" % value.to_f
     else column_content(column, object)
     end
-        #  :anchor => "change-#{object.id}"
   end
 end
