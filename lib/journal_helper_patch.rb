@@ -21,7 +21,7 @@ module JournalsHelper
         :id => dom_id(journal, :toggle_important)
       )
     end
-    unless journal.safe_user_journal_note.read or journal.safe_user_journal_note.deleted
+    unless journal.safe_user_journal_note.deleted
       links << link_to_remote('X',
         {
           :url => {:controller => 'journal_notes', :action => 'destroy', :id => journal, :project_id => issue.project},
