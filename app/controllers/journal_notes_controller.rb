@@ -13,10 +13,19 @@ class JournalNotesController < ApplicationController
 
   def index
     user = @request_user || User.current
+    not_self_condition = if user == User.current and user.pref.others[:no_self_notified]
+      " and journals.user_id != #{user.id}"
+    else
+      ''
+    end
+
     opts = {
       :joins => 'join issues on journals.journalized_id = issues.id and journals.journalized_type = \'Issue\' left join journal_notes on journals.id = journal_notes.journal_id',
-      :conditions => ['issues.project_id = ? and (journal_notes.user_id is null or journal_notes.user_id != ? or (journal_notes.user_id = ? and journal_notes.deleted = ?))', @project, user, user, false]
+      :conditions => [%Q{issues.project_id = ? and 
+(journal_notes.user_id is null or journal_notes.user_id != ? or 
+(journal_notes.user_id = ? and journal_notes.deleted = ?))#{not_self_condition}}, @project, user, user, false]
       }
+
     @n_count = Journal.count(opts)
     @limit = per_page_option
     @journal_pages = Paginator.new self, @n_count, @limit, params['page']

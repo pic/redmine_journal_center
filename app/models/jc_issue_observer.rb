@@ -1,4 +1,4 @@
-class JournalCenterObserver <  ActiveRecord::Observer
+class JcIssueObserver <  ActiveRecord::Observer
   observe :issue
 
   def after_create(issue)

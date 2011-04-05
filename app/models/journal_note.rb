@@ -13,6 +13,7 @@ class JournalNote < ActiveRecord::Base
     css_classes << 'important' if important
     css_classes.join(' ')
   end
+
 end
 
 class Journal
