@@ -9,7 +9,9 @@ class JcenterHooks  < Redmine::Hook::ViewListener
   def view_issues_sidebar_planning_bottom(context)
     vods_with_css(context)
   end
-
+  def view_issues_show_description_bottom(context)
+    context[:controller].send :render_to_string, :partial => 'issues/jc_history'
+  end
   def view_layouts_base_html_head(context)
     stylesheet_link_tag 'journal_center', :plugin => 'redmine_journal_center' if ActivitiesController === context[:controller]
   end

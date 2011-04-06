@@ -1,0 +1,4 @@
+<%  unless @journals.empty? %>
+<hr />
+<%= render :partial => 'journal_notes/history_summary', :locals => { :issue => @issue, :journals => @journals } %>
+<% end %>
