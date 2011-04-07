@@ -1,7 +1,8 @@
 
 <% form_tag({}) do
   #columns = %w(description).map {|n| Issue.columns_hash[n]}
-  columns = %w(journal_subject assigned_to spent_hours estimated_hours status priority done_ratio created_on tracker).map {|n| QueryColumn.new(n.to_sym)}
+  columns = %w(journal_subject assigned_to spent_hours estimated_hours author created_on status priority done_ratio tracker).map {|n| QueryColumn.new(n.to_sym)}
+  columns[3] = QueryColumn.new(:estimated_hours, :caption => :vod_field_estimated_hours)
   journal_columns = %w(journal_subject created_on)
   -%>
 <div class="autoscroll">
