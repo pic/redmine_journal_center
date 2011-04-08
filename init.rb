@@ -4,7 +4,7 @@ ActiveRecord::Base.observers << JcIssueObserver
 config.to_prepare do
   require_dependency 'journal_helper_patch'
   require_dependency 'jc_hooks'
-  unless config.action_controller.perform_caching
+  unless config.cache_classes
     JcIssueObserver.instance.reload_observer
   end
 end
