@@ -1,3 +1,5 @@
 jcenter_title: View or Do
 field_journal_subject: "Subject / Update #"
+vod_field_estimated_hours: Estimated
 field_spent_hours: "Spent"
+vod_field_user: "Author"

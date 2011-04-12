@@ -3,6 +3,7 @@
   #columns = %w(description).map {|n| Issue.columns_hash[n]}
   columns = %w(journal_subject assigned_to spent_hours estimated_hours user created_on status priority done_ratio tracker).map {|n| QueryColumn.new(n.to_sym)}
   columns[3] = QueryColumn.new(:estimated_hours, :caption => :vod_field_estimated_hours)
+  columns[4] = QueryColumn.new(:user, :caption => :vod_field_user)
   journal_columns = %w(journal_subject created_on user)
   -%>
 <div class="autoscroll">
