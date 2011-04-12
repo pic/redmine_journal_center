@@ -7,7 +7,7 @@
   color: red;
 }
 
-.vods td.assigned_to, .vods td.author {
+.vods td.assigned_to, .vods td.author, .vods td.user {
   min-width: 105px;
 }
 td.journal_subject {
