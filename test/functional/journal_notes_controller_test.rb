@@ -24,6 +24,10 @@ class JournalNotesControllerTest < ActionController::TestCase
   end
 
   test 'retrieve journals' do
+    # check we have 3 updates in total in this project
+    assert_equal 3, Journal.count(:joins => 'join issues on journals.journalized_id = issues.id and journals.journalized_type = \'Issue\'',
+      :conditions => ['project_id = ?', @project])
+
     get :index, :project_id => @project.id
     assert_response :success
     journals = assigns['journals']
