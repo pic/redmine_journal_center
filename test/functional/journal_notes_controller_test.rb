@@ -12,13 +12,13 @@ class JournalNotesControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup
-    journal = Journal.find 1
-    @user = journal.user
-    @project = journal.journalized.project
+    @journal = Journal.find 1
+    @user = @journal.user
+    @project = @journal.journalized.project
     @request.session[:user_id] = @user.id
 
     # mark two journal note set for user 7
-    journal.journalized.journals.first(2).each do |jo|
+    @journal.journalized.journals.first(2).each do |jo|
       JournalNote.create(:journal => jo, :user_id => 7, :deleted => true)
     end
   end
@@ -33,6 +33,18 @@ class JournalNotesControllerTest < ActionController::TestCase
     journals = assigns['journals']
     assert_kind_of(Array, journals)
     assert_equal 3, journals.size
+  end
+
+  test 'retrieve journals excluding deleted ones' do
+    @journal.journalized.journals.first(1).each do |jo|
+      JournalNote.create(:journal => jo, :user_id => @user, :deleted => true)
+    end
+
+    get :index, :project_id => @project.id
+    assert_response :success
+    journals = assigns['journals']
+    assert_kind_of(Array, journals)
+    assert_equal 2, journals.size
   end
 
   test 'retrieve journals but no self notified' do

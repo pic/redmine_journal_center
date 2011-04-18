@@ -20,10 +20,10 @@ class JournalNotesController < ApplicationController
     end
 
     opts = {
-      :joins => 'join issues on journals.journalized_id = issues.id and journals.journalized_type = \'Issue\' left join journal_notes on journals.id = journal_notes.journal_id',
+      :joins => "join issues on journals.journalized_id = issues.id and journals.journalized_type = \'Issue\' left join journal_notes as jn1 on journals.id = jn1.journal_id and jn1.user_id = #{user.id}",
       :conditions => [%Q{issues.project_id = ? and 
-(journal_notes.user_id is null or 
-not (journal_notes.user_id = ? and journal_notes.deleted = ?))#{not_self_condition}}, @project, user, true]
+(jn1.user_id is null or jn1.deleted = ?)#{not_self_condition}},
+        @project, false]
       }
 
     @n_count = Journal.count(opts)
