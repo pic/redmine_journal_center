@@ -22,14 +22,17 @@ module JournalsHelper
       )
     end
     unless journal.safe_user_journal_note.deleted
-      links << link_to_remote('X',
-        {
-          :url => {:controller => 'journal_notes', :action => 'destroy', :id => journal, :project_id => issue.project},
-          :method => :delete,
-          :loading => "$('#{dom_id journal, :delete_note}').hide()"
-        },
-        :id => dom_id(journal, :delete_note)
-      )
+      not_self = User.current.pref.others[:no_self_notified]
+      unless not_self and User.current == journal.user
+        links << link_to_remote('X',
+         {
+            :url => {:controller => 'journal_notes', :action => 'destroy', :id => journal, :project_id => issue.project},
+            :method => :delete,
+            :loading => "$('#{dom_id journal, :delete_note}').hide()"
+          },
+          :id => dom_id(journal, :delete_note)
+        )
+      end
     end
     content << content_tag('div', links.join(' '), :class => 'contextual') unless links.empty?
     content << textilizable(journal, :notes)
