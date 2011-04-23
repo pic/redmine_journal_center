@@ -13,17 +13,17 @@ module JournalsHelper
       links << link_to_in_place_notes_editor(image_tag('edit.png'), "journal-#{journal.id}-notes",
                                              { :controller => 'journals', :action => 'edit', :id => journal },
                                                 :title => l(:button_edit)) if editable
-      links << link_to_remote(
-        image_tag(journal.safe_user_journal_note.important ? 'flag.png' : 'bullet.png',
-          :plugin => 'redmine_journal_center'),
-        {:url => {:controller => 'journal_notes', :action => 'toggle_important', :id => journal, :project_id => issue.project, :read => true}, :method => :put,
-          :loading => "toggleImportantInIssue('#{dom_id journal, :toggle_important}')"},
-        :id => dom_id(journal, :toggle_important)
-      )
     end
     unless journal.safe_user_journal_note.deleted
       not_self = User.current.pref.others[:no_self_notified]
       unless not_self and User.current == journal.user
+        links << link_to_remote(
+          image_tag(journal.safe_user_journal_note.important ? 'flag.png' : 'bullet.png',
+            :plugin => 'redmine_journal_center'),
+          {:url => {:controller => 'journal_notes', :action => 'toggle_important', :id => journal, :project_id => issue.project, :read => true}, :method => :put,
+            :loading => "toggleImportantInIssue('#{dom_id journal, :toggle_important}')"},
+          :id => dom_id(journal, :toggle_important)
+        )
         links << link_to_remote('X',
          {
             :url => {:controller => 'journal_notes', :action => 'destroy', :id => journal, :project_id => issue.project},

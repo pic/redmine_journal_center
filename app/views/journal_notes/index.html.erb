@@ -1,4 +1,4 @@
-<%= render :partial => 'js_init' %>
+<%= render :partial => 'full_js_init' %>
 <% if @journals.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
@@ -8,5 +8,4 @@
 
 <% content_for :header_tags do %>
     <%= stylesheet_link_tag 'journal_center', :plugin => 'redmine_journal_center' %>
-    <%= javascript_include_tag 'journal_center', :plugin => 'redmine_journal_center' %>
 <% end %>
